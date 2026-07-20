@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type UpdatePassword, UsersService } from "@/client"
 import {
   Form,
   FormControl,
@@ -15,6 +14,7 @@ import {
 import { LoadingButton } from "@/components/ui/loading-button"
 import { PasswordInput } from "@/components/ui/password-input"
 import useCustomToast from "@/hooks/useCustomToast"
+import { supabase } from "@/lib/supabase"
 import { handleError } from "@/utils"
 
 const formSchema = z
@@ -52,8 +52,30 @@ const ChangePassword = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: UpdatePassword) =>
-      UsersService.updatePasswordMe({ requestBody: data }),
+    mutationFn: async (data: {
+      current_password: string
+      new_password: string
+    }) => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user?.email) {
+        throw new Error("You must be signed in to change your password")
+      }
+      // Supabase's updateUser does not verify the current password, so
+      // re-authenticate first to preserve that safeguard.
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: data.current_password,
+      })
+      if (signInError) {
+        throw new Error("Current password is incorrect")
+      }
+      const { error } = await supabase.auth.updateUser({
+        password: data.new_password,
+      })
+      if (error) throw error
+    },
     onSuccess: () => {
       showSuccessToast("Password updated successfully")
       form.reset()

@@ -5,7 +5,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type ItemPublic, ItemsService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -28,6 +27,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import { supabase } from "@/lib/supabase"
+import type { ItemPublic } from "@/types"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
@@ -58,8 +59,16 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) =>
-      ItemsService.updateItem({ id: item.id, requestBody: data }),
+    mutationFn: async (data: FormData) => {
+      const { error } = await supabase
+        .from("items")
+        .update({
+          title: data.title,
+          description: data.description || null,
+        })
+        .eq("id", item.id)
+      if (error) throw error
+    },
     onSuccess: () => {
       showSuccessToast("Item updated successfully")
       setIsOpen(false)

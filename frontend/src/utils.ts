@@ -1,21 +1,16 @@
-import { AxiosError } from "axios"
-import type { ApiError } from "./client"
-
-function extractErrorMessage(err: ApiError): string {
-  if (err instanceof AxiosError) {
+function extractErrorMessage(err: unknown): string {
+  if (err instanceof Error && err.message) {
     return err.message
   }
-
-  const errDetail = (err.body as any)?.detail
-  if (Array.isArray(errDetail) && errDetail.length > 0) {
-    return errDetail[0].msg
+  if (typeof err === "string" && err) {
+    return err
   }
-  return errDetail || "Something went wrong."
+  return "Something went wrong."
 }
 
 export const handleError = function (
   this: (msg: string) => void,
-  err: ApiError,
+  err: unknown,
 ) {
   const errorMessage = extractErrorMessage(err)
   this(errorMessage)

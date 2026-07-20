@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 
-import { UsersService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -16,6 +15,7 @@ import {
 import { LoadingButton } from "@/components/ui/loading-button"
 import useAuth from "@/hooks/useAuth"
 import useCustomToast from "@/hooks/useCustomToast"
+import { supabase } from "@/lib/supabase"
 import { handleError } from "@/utils"
 
 const DeleteConfirmation = () => {
@@ -25,7 +25,13 @@ const DeleteConfirmation = () => {
   const { logout } = useAuth()
 
   const mutation = useMutation({
-    mutationFn: () => UsersService.deleteUserMe(),
+    mutationFn: async () => {
+      // delete_user() is a SECURITY DEFINER function that removes the caller's
+      // own auth.users row (equivalent of the old DELETE /users/me endpoint).
+      const { error } = await supabase.rpc("delete_user")
+      if (error) throw error
+      await supabase.auth.signOut()
+    },
     onSuccess: () => {
       showSuccessToast("Your account has been successfully deleted")
       logout()

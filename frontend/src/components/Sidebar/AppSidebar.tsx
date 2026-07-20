@@ -1,4 +1,4 @@
-import { Briefcase, Home, Users } from "lucide-react"
+import { Briefcase, Home } from "lucide-react"
 
 import { SidebarAppearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"
@@ -12,17 +12,13 @@ import useAuth from "@/hooks/useAuth"
 import { type Item, Main } from "./Main"
 import { User } from "./User"
 
-const baseItems: Item[] = [
+const items: Item[] = [
   { icon: Home, title: "Dashboard", path: "/" },
   { icon: Briefcase, title: "Items", path: "/items" },
 ]
 
 export function AppSidebar() {
   const { user: currentUser } = useAuth()
-
-  const items = currentUser?.is_superuser
-    ? [...baseItems, { icon: Users, title: "Admin", path: "/admin" }]
-    : baseItems
 
   return (
     <Sidebar collapsible="icon">

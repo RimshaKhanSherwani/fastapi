@@ -5,7 +5,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type ItemCreate, ItemsService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -28,6 +27,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import { supabase } from "@/lib/supabase"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
@@ -53,8 +53,14 @@ const AddItem = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ItemCreate) =>
-      ItemsService.createItem({ requestBody: data }),
+    mutationFn: async (data: FormData) => {
+      // owner_id defaults to auth.uid() in the database.
+      const { error } = await supabase.from("items").insert({
+        title: data.title,
+        description: data.description || null,
+      })
+      if (error) throw error
+    },
     onSuccess: () => {
       showSuccessToast("Item created successfully")
       form.reset()

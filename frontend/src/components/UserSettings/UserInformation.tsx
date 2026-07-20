@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { UsersService, type UserUpdateMe } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -18,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useAuth from "@/hooks/useAuth"
 import useCustomToast from "@/hooks/useCustomToast"
+import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 import { handleError } from "@/utils"
 
@@ -27,6 +27,11 @@ const formSchema = z.object({
 })
 
 type FormData = z.infer<typeof formSchema>
+
+interface UserUpdatePayload {
+  full_name?: string
+  email?: string
+}
 
 const UserInformation = () => {
   const queryClient = useQueryClient()
@@ -49,8 +54,20 @@ const UserInformation = () => {
   }
 
   const mutation = useMutation({
-    mutationFn: (data: UserUpdateMe) =>
-      UsersService.updateUserMe({ requestBody: data }),
+    mutationFn: async (payload: UserUpdatePayload) => {
+      const attributes: {
+        email?: string
+        data?: Record<string, unknown>
+      } = {}
+      if (payload.email !== undefined) {
+        attributes.email = payload.email
+      }
+      if (payload.full_name !== undefined) {
+        attributes.data = { full_name: payload.full_name || null }
+      }
+      const { error } = await supabase.auth.updateUser(attributes)
+      if (error) throw error
+    },
     onSuccess: () => {
       showSuccessToast("User updated successfully")
       toggleEditMode()
@@ -62,7 +79,7 @@ const UserInformation = () => {
   })
 
   const onSubmit = (data: FormData) => {
-    const updateData: UserUpdateMe = {}
+    const updateData: UserUpdatePayload = {}
 
     // only include fields that have changed
     if (data.full_name !== currentUser?.full_name) {
