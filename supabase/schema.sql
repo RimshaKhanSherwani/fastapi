@@ -24,6 +24,10 @@ create index if not exists items_owner_id_idx on public.items (owner_id);
 -- Row Level Security: users may only CRUD their own items.
 alter table public.items enable row level security;
 
+-- RLS scopes WHICH rows are visible; table-level GRANTs are still required for
+-- PostgREST to permit the operation at all. RLS keeps every row bound to owner.
+grant select, insert, update, delete on public.items to authenticated;
+
 drop policy if exists "Users can view their own items" on public.items;
 create policy "Users can view their own items"
   on public.items for select
