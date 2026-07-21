@@ -13,12 +13,23 @@ export const Route = createFileRoute("/_layout/")({
   }),
 })
 
+function getInitials(name: string) {
+  return name
+    .trim()
+    .split(" ")
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("")
+}
+
 function Dashboard() {
   const { user: currentUser } = useAuth()
 
   return (
     <div>
       <div>
+        <div className="mb-2 flex size-10 items-center justify-center rounded-full bg-muted text-sm font-medium">
+          {currentUser ? getInitials(currentUser.full_name!) : null}
+        </div>
         <h1 className="text-2xl truncate max-w-sm">
           Hi, {currentUser?.full_name || currentUser?.email} 👋
         </h1>

@@ -54,10 +54,11 @@ const AddItem = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
-      // owner_id defaults to auth.uid() in the database.
+      const { data: session } = await supabase.auth.getSession()
       const { error } = await supabase.from("items").insert({
         title: data.title,
         description: data.description || null,
+        owner_id: session.session?.user.email,
       })
       if (error) throw error
     },

@@ -18,7 +18,7 @@ function CopyId({ id }: { id: string }) {
         variant="ghost"
         size="icon"
         className="size-6 opacity-0 group-hover:opacity-100 transition-opacity"
-        onClick={() => copy(id)}
+        onClick={() => copy(id.split("-")[5].toUpperCase())}
       >
         {isCopied ? (
           <Check className="size-3 text-green-500" />
