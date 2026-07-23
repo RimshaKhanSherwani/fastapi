@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { AuthLayout } from "@/components/Common/AuthLayout"
+import { StatusBanner } from "@/components/Common/StatusBanner"
 import {
   Form,
   FormControl,
@@ -134,6 +135,8 @@ function Login() {
               Sign up
             </RouterLink>
           </div>
+
+          <StatusBanner />
         </form>
       </Form>
     </AuthLayout>
