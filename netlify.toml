@@ -1,0 +1,17 @@
+# Netlify build config for the Vite + React SPA in frontend/.
+# The app is fully static and talks to Supabase directly, so no server runtime.
+
+[build]
+  # Build from the repo root so the bun workspace ("frontend") resolves.
+  command = "bun install && bun run build"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  BUN_VERSION = "1.3.14"
+
+# TanStack Router handles routing client-side, so every path must serve index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

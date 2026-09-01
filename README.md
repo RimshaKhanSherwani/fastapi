@@ -125,6 +125,28 @@ The app is a static Vite site — no server runtime required.
 > SPA routing note: TanStack Router handles client-side routes. If you ever host the
 > `dist/` output somewhere other than Vercel, add a catch-all rewrite to `index.html`.
 
+## Deploy to Netlify
+
+Same static build — [`netlify.toml`](netlify.toml) already has the settings, so Netlify
+picks them up on import and you do not need to fill in the build fields by hand.
+
+1. Push this repository to GitHub and **import it into Netlify** (Add new site → Import
+   an existing project). Leave the base directory empty — the build runs from the repo
+   root so the Bun workspace resolves.
+2. Netlify reads `netlify.toml`: build command `bun install && bun run build`, publish
+   directory `frontend/dist`, plus a catch-all rewrite to `index.html` for the SPA routes.
+3. Add the environment variables (**Site configuration → Environment variables**) for
+   Production and Deploy Previews:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+4. **Deploy.**
+5. Back in Supabase, add your Netlify domain (e.g. `https://your-app.netlify.app`) to
+   **Authentication → URL Configuration** as the Site URL and a Redirect URL
+   (`https://your-app.netlify.app/reset-password`).
+
+> Vite inlines `VITE_*` variables at build time, so changing them in Netlify requires a
+> redeploy to take effect.
+
 ## License
 
 This project is licensed under the terms of the [MIT license](LICENSE).
