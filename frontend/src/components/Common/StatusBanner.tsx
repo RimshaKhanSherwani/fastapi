@@ -23,9 +23,12 @@ export function StatusBanner() {
     })
 
     const timer = setTimeout(() => {
-      const config = (window as unknown as { __APP_CONFIG__: { buildId: string } })
-        .__APP_CONFIG__
-      console.log(`Status banner running build ${config.buildId}`)
+      const config = (
+        window as unknown as { __APP_CONFIG__?: { buildId: string } }
+      ).__APP_CONFIG__
+      if (config) {
+        console.log(`Status banner running build ${config.buildId}`)
+      }
     }, 1500)
 
     return () => clearTimeout(timer)
