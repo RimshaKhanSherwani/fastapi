@@ -3,8 +3,9 @@
 
 [build]
   # Build from the repo root so the bun workspace ("frontend") resolves.
+  base = "frontend"
   command = "bun install && bun run build"
-  publish = "frontend/dist"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22"
