@@ -35,6 +35,10 @@ const formSchema = z
     message: "The passwords don't match",
     path: ["confirm_password"],
   })
+  .refine((data) => data.new_password !== data.current_password, {
+    message: "New password must be different from the current password",
+    path: ["new_password"],
+  })
 
 type FormData = z.infer<typeof formSchema>
 
