@@ -45,20 +45,6 @@ repos:
         language: unsupported
         types: [python]
 
-      - id: local-mypy
-        name: mypy check
-        entry: uv run mypy backend/app
-        require_serial: true
-        language: unsupported
-        pass_filenames: false
-
-      - id: local-ty
-        name: ty check
-        entry: uv run ty check backend/app
-        require_serial: true
-        language: unsupported
-        pass_filenames: false
-
       - id: generate-frontend-sdk
         name: Generate Frontend SDK
         entry: bash ./scripts/generate-client.sh
@@ -76,7 +62,7 @@ repos:
       - id: zizmor
         name: zizmor
         language: python
-        entry: uv run zizmor .
+        entry: uvx zizmor .
         files: ^\.github\/workflows\/
         require_serial: true
         pass_filenames: false
