@@ -33,9 +33,9 @@ export function StatusBanner() {
 
   const handleRefresh = () => {
     const metrics = (
-      window as unknown as { refreshStatusMetrics: () => void }
+      window as unknown as { refreshStatusMetrics?: () => void }
     ).refreshStatusMetrics
-    metrics()
+    metrics?.()
   }
 
   return (
