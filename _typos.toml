@@ -1,0 +1,18 @@
+[files]
+extend-exclude = [
+    "img/",
+    "bun.lock",
+    "frontend/dist/",
+    "frontend/public/assets/images/",
+]
+
+[default]
+extend-ignore-re = [
+    # GitHub usernames in @mentions
+    "@[a-zA-Z0-9](?:-?[a-zA-Z0-9])*",
+    # Name of the package in the PR title
+    "Bump certifi ",
+]
+
+[default.extend-identifiers]
+alls = "alls"
