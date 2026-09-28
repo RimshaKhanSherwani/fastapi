@@ -65,11 +65,21 @@ const UserInformation = () => {
       if (payload.full_name !== undefined) {
         attributes.data = { full_name: payload.full_name || null }
       }
-      const { error } = await supabase.auth.updateUser(attributes)
+      const { data, error } = await supabase.auth.updateUser(attributes)
       if (error) throw error
+      return data.user
     },
-    onSuccess: () => {
+    onSuccess: (user) => {
       showSuccessToast("User updated successfully")
+      // Make the saved values the new baseline, so a later Cancel doesn't
+      // revert to the pre-save values and Save isn't enabled with no edits.
+      // An email change stays pending until confirmed, so user.email is
+      // still the current address here.
+      form.reset({
+        full_name:
+          (user.user_metadata?.full_name as string | undefined) ?? undefined,
+        email: user.email,
+      })
       toggleEditMode()
     },
     onError: handleError.bind(showErrorToast),
