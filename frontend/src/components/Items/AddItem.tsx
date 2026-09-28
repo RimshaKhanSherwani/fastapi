@@ -19,6 +19,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,6 +30,8 @@ import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
 import { supabase } from "@/lib/supabase"
 import { handleError } from "@/utils"
+
+const TITLE_MAX_LENGTH = 255
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -111,6 +114,9 @@ const AddItem = () => {
                         required
                       />
                     </FormControl>
+                    <FormDescription>
+                      {field.value.length}/{TITLE_MAX_LENGTH}
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
