@@ -31,7 +31,7 @@ import { supabase } from "@/lib/supabase"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
+  title: z.string().trim().min(1, { message: "Title is required" }),
   description: z.string().optional(),
 })
 
