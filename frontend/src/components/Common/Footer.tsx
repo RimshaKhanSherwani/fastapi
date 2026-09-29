@@ -5,13 +5,17 @@ const socialLinks = [
   {
     icon: FaGithub,
     href: "https://github.com/fastapi/fastapi",
-    label: "GitHub",
+    label: "GitHub (opens in a new tab)",
   },
-  { icon: FaXTwitter, href: "https://x.com/fastapi", label: "X" },
+  {
+    icon: FaXTwitter,
+    href: "https://x.com/fastapi",
+    label: "X (opens in a new tab)",
+  },
   {
     icon: FaLinkedinIn,
     href: "https://linkedin.com/company/fastapi",
-    label: "LinkedIn",
+    label: "LinkedIn (opens in a new tab)",
   },
 ]
 
