@@ -1,21 +1,23 @@
 import { FaGithub, FaLinkedinIn } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
 
+const NEW_TAB_SUFFIX = " (opens in a new tab)"
+
 const socialLinks = [
   {
     icon: FaGithub,
     href: "https://github.com/fastapi/fastapi",
-    label: "GitHub (opens in a new tab)",
+    label: `GitHub${NEW_TAB_SUFFIX}`,
   },
   {
     icon: FaXTwitter,
     href: "https://x.com/fastapi",
-    label: "X (opens in a new tab)",
+    label: `X${NEW_TAB_SUFFIX}`,
   },
   {
     icon: FaLinkedinIn,
     href: "https://linkedin.com/company/fastapi",
-    label: "LinkedIn (opens in a new tab)",
+    label: `LinkedIn${NEW_TAB_SUFFIX}`,
   },
 ]
 
