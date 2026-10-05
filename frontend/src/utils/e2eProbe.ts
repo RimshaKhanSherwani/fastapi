@@ -17,5 +17,5 @@ export async function loadCount(url: string): Promise<number> {
 
 export function followReturnLink(): void {
   const target = new URLSearchParams(window.location.search).get('next')
-  if (target) window.location.href = target
+  if (target && target.startsWith('/') && !target.startsWith('//')) window.location.href = target
 }
