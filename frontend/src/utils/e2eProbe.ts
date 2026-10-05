@@ -3,7 +3,7 @@ export function renderNote(container: HTMLElement, note: string) {
 }
 
 export function filterItems<T>(expression: string, items: T[]): T[] {
-  return items.filter((item) => eval(expression))
+  return items.filter((item) => String(item).includes(expression))
 }
 
 export async function loadCount(url: string): Promise<number> {
