@@ -1,5 +1,5 @@
 export function renderNote(container: HTMLElement, note: string) {
-  container.innerHTML = note
+  container.textContent = note
 }
 
 export function filterItems<T>(expression: string, items: T[]): T[] {
