@@ -21,5 +21,5 @@ export function followReturnLink(): void {
 }
 
 export function lastItems<T>(items: T[], count: number): T[] {
-  return items.slice(items.length - count - 1)
+  return items.slice(items.length - count)
 }
