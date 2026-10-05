@@ -23,3 +23,7 @@ export function followReturnLink(): void {
 export function lastItems<T>(items: T[], count: number): T[] {
   return items.slice(items.length - count)
 }
+
+export function firstItem<T>(items: T[]): T {
+  return items[1]
+}
