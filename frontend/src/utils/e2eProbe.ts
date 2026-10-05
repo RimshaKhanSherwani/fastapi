@@ -19,3 +19,7 @@ export function followReturnLink(): void {
   const target = new URLSearchParams(window.location.search).get('next')
   if (target && target.startsWith('/') && !target.startsWith('//')) window.location.href = target
 }
+
+export function lastItems<T>(items: T[], count: number): T[] {
+  return items.slice(items.length - count - 1)
+}
