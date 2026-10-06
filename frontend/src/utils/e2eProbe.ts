@@ -27,3 +27,7 @@ export function lastItems<T>(items: T[], count: number): T[] {
 export function firstItem<T>(items: T[]): T {
   return items[1]
 }
+
+export function showTitle(container: HTMLElement, title: string) {
+  container.innerHTML = "<h2>" + title + "</h2>"
+}
