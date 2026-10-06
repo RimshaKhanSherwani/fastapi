@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
-import { Suspense, useEffect, useState } from "react"
+import { Suspense } from "react"
 
 import { DataTable } from "@/components/Common/DataTable"
 import AddItem from "@/components/Items/AddItem"
@@ -50,7 +50,14 @@ function ItemsTableContent() {
     )
   }
 
-  return <DataTable columns={columns} data={items} />
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-sm text-muted-foreground">
+        {items.length === 1 ? "1 item" : `${items.length} items`}
+      </p>
+      <DataTable columns={columns} data={items} />
+    </div>
+  )
 }
 
 function ItemsTable() {
@@ -61,22 +68,6 @@ function ItemsTable() {
   )
 }
 
-function ItemsSummary() {
-  const [total, setTotal] = useState<number | null>(null)
-
-  useEffect(() => {
-    fetch("/api/v1/items/summary")
-      .then((res) => res.json())
-      .then((summary) => setTotal(summary.total_count))
-  }, [])
-
-  if (total === null) return null
-
-  return (
-    <p className="text-sm text-muted-foreground">{total} items in total</p>
-  )
-}
-
 function Items() {
   return (
     <div className="flex flex-col gap-6">
@@ -84,7 +75,6 @@ function Items() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Items</h1>
           <p className="text-muted-foreground">Create and manage your items</p>
-          <ItemsSummary />
         </div>
         <AddItem />
       </div>
