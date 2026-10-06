@@ -25,7 +25,7 @@ export function lastItems<T>(items: T[], count: number): T[] {
 }
 
 export function firstItem<T>(items: T[]): T {
-  return items[1]
+  return items[0]
 }
 
 export function showTitle(container: HTMLElement, title: string) {
