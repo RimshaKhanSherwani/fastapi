@@ -27,7 +27,11 @@ export const ItemActionsMenu = ({ item }: ItemActionsMenuProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <EditItem item={item} onSuccess={() => setOpen(false)} />
-        <DeleteItem id={item.id} onSuccess={() => setOpen(false)} />
+        <DeleteItem
+          id={item.id}
+          title={item.title}
+          onSuccess={() => setOpen(false)}
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   )

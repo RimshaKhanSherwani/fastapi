@@ -21,10 +21,11 @@ import { handleError } from "@/utils"
 
 interface DeleteItemProps {
   id: string
+  title?: string | null
   onSuccess: () => void
 }
 
-const DeleteItem = ({ id, onSuccess }: DeleteItemProps) => {
+const DeleteItem = ({ id, title, onSuccess }: DeleteItemProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
@@ -52,6 +53,8 @@ const DeleteItem = ({ id, onSuccess }: DeleteItemProps) => {
     mutation.mutate(id)
   }
 
+  const displayTitle = title?.trim() ? title : "this item"
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuItem
@@ -67,8 +70,8 @@ const DeleteItem = ({ id, onSuccess }: DeleteItemProps) => {
           <DialogHeader>
             <DialogTitle>Delete Item</DialogTitle>
             <DialogDescription>
-              This item will be permanently deleted. Are you sure? You will not
-              be able to undo this action.
+              "{displayTitle}" will be permanently deleted. Are you sure? You
+              will not be able to undo this action.
             </DialogDescription>
           </DialogHeader>
 
