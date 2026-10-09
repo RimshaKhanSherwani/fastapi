@@ -60,7 +60,7 @@ const DeleteConfirmation = () => {
             <DialogDescription>
               All your account data will be{" "}
               <strong>permanently deleted.</strong> If you are sure, please
-              click <strong>"Confirm"</strong> to proceed. This action cannot be
+              click <strong>"Delete"</strong> to proceed. This action cannot be
               undone.
             </DialogDescription>
           </DialogHeader>
